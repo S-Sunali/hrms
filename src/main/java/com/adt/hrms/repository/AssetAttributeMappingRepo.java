@@ -24,12 +24,12 @@ public interface AssetAttributeMappingRepo extends JpaRepository<AssetAttributeM
 	@Query(value = "SELECT * FROM employee_schema.asset_attribute_mapping WHERE asset_attribute_id=?1", nativeQuery = true)
 	Optional<List<AssetAttributeMapping>> findMappingListByAtrributeId(Integer assetAttributeId);
 
-	@Query(value = "SELECT * FROM employee_schema.asset_attribute_mapping where asset_id=?1", nativeQuery = true)
-	Optional<AssetAttributeMapping> findAssetAttributeMappingByAssetId(Integer assetId);
+//	@Query(value = "SELECT * FROM employee_schema.asset_attribute_mapping where asset_id=?1", nativeQuery = true)
+//	Optional<AssetAttributeMapping> findAssetAttributeMappingByAssetId(Integer assetId);
 
-	@Query(value = "DELETE FROM employee_schema.asset_attribute_mapping WHERE asset_id=?1", nativeQuery = true)
-	void deleteAssetAttributeMappingByAssetId(Integer assetId);
+//	@Query(value = "DELETE FROM employee_schema.asset_attribute_mapping WHERE asset_id=?1", nativeQuery = true)
+//	void deleteAssetAttributeMappingByAssetId(Integer assetId);
 
-	@Query(value = "DELETE FROM employee_schema.asset_attribute_mapping WHERE asset_id=?1 and asset_attribute_id=?2", nativeQuery = true)
-	void deleteByAssetIdAndAssetAttributeId(Integer asset_id, int asset_attribute_id);
+//	@Query(value = "DELETE FROM employee_schema.asset_attribute_mapping WHERE asset_id=?1 and asset_attribute_id=?2", nativeQuery = true)
+//	void deleteByAssetIdAndAssetAttributeId(Integer asset_id, int asset_attribute_id);
 }

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class AssetDTO {
 
 	private Integer empId;
-	private String asset_Id;
+	private String assetAdtId;
 	private String assetTypeName;
 	private String assetStatus;
 

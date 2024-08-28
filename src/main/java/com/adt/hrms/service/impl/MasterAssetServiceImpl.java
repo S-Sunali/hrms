@@ -561,7 +561,7 @@ public class MasterAssetServiceImpl implements MasterAssetService {
 
 					Optional<AssetStatus> assetStatusExist = assetStatusRepo.findById(assetInfo.getAsset_status_id());
 
-					assetDTO.setAsset_Id(assetInfo.getAssetADT_ID());
+					assetDTO.setAssetAdtId(assetInfo.getAssetADT_ID());
 					assetDTO.setAssetStatus(assetStatusExist.get().getAssetStatus());
 					assetDTO.setAssetTypeName(existingAssetType.get().getAssetName());
 					if (assetInfo.getEmp_id() == null) {
@@ -605,13 +605,13 @@ public class MasterAssetServiceImpl implements MasterAssetService {
 	}
 
 	@Override
-	public ResponseDTO updateAssetAttributeMappingByAssetId(AssetDTO assetDTO) {
+	public ResponseDTO updateAssetAttributeMappingByAssetAdtId(AssetDTO assetDTO) {
 		log.info("MasterAssetServiceImpl:updateAssetAttributeMappingByAssetId info level log message");
 
 		try {
-			if (assetDTO.getAsset_Id() == null || assetDTO.getAsset_Id().isEmpty() || assetDTO.getAsset_Id().equals("")
-					|| assetDTO.getAsset_Id().isBlank()) {
-				throw new IllegalArgumentException("Provide valid AssetInfoId, it should not be 0 or invalid or null");
+			if (assetDTO.getAssetAdtId() == null || assetDTO.getAssetAdtId().isEmpty()
+					|| assetDTO.getAssetAdtId().equals("") || assetDTO.getAssetAdtId().isBlank()) {
+				throw new IllegalArgumentException("Provide valid AssetAdtId, it should not be 0 or invalid or null");
 			}
 			if (assetDTO.getAssetAttributeMappingList() == null || assetDTO.getAssetAttributeMappingList().isEmpty()) {
 				throw new IllegalArgumentException(
@@ -634,13 +634,12 @@ public class MasterAssetServiceImpl implements MasterAssetService {
 				}
 			}
 
-			Optional<AssetInfo> assetInfoExist = assetInfoRepo
-					.findAssetInfoByAssetId(Integer.parseInt(assetDTO.getAsset_Id()));
+			Optional<AssetInfo> assetInfoExist = assetInfoRepo.findAssetsByAdtId(assetDTO.getAssetAdtId());
 
 			if (assetInfoExist.isPresent()) {
 
 				Optional<List<AssetAttributeMapping>> assetAttributeMappingListExist = assetAttributeMappingRepo
-						.findMappingListByAssetId(Integer.parseInt(assetDTO.getAsset_Id()));
+						.findMappingListByAssetId(assetInfoExist.get().getId());
 
 				if (assetAttributeMappingListExist.isPresent()) {
 
@@ -652,7 +651,7 @@ public class MasterAssetServiceImpl implements MasterAssetService {
 					for (AssetAttributeMappingDTO assetMappingDTO : assetDTO.getAssetAttributeMappingList()) {
 						AssetAttributeMapping assetMappingSaved = new AssetAttributeMapping();
 
-						assetMappingSaved.setAsset_id(Integer.parseInt(assetDTO.getAsset_Id()));
+						assetMappingSaved.setAsset_id(assetInfoExist.get().getId());
 
 						Optional<AssetAttribute> attributeExist = assetAttributeRepo.findAttributeByName(
 								assetMappingDTO.getAssetAttributeName().toUpperCase(),
@@ -684,18 +683,19 @@ public class MasterAssetServiceImpl implements MasterAssetService {
 	}
 
 	@Override
-	public ResponseDTO deleteAssetInfoById(Integer assetId) {
-		log.info("MasterAssetServiceImpl:deleteAssetInfoById info level log message");
+	public ResponseDTO deleteAssetInfoByAssetAdtId(String assetAdtId) {
+		log.info("MasterAssetServiceImpl:deleteAssetInfoByAssetAdtId info level log message");
 		try {
-			if (assetId == 0 || assetId.equals("")) {
-				throw new IllegalArgumentException("Provide valid AssetId, it should not be 0 or invalid or null");
+			if (assetAdtId == null || assetAdtId.equals("") || assetAdtId.isBlank() || assetAdtId.isEmpty()) {
+				throw new IllegalArgumentException("Provide valid AssetAdtId, it should not be 0 or invalid or null");
 			}
-			Optional<AssetInfo> assetInfoExist = assetInfoRepo.findAssetInfoByAssetId(assetId);
+
+			Optional<AssetInfo> assetInfoExist = assetInfoRepo.findAssetsByAdtId(assetAdtId);
 
 			if (assetInfoExist.isPresent()) {
 
 				Optional<List<AssetAttributeMapping>> assetAttributeMappingListExist = assetAttributeMappingRepo
-						.findMappingListByAssetId(assetId);
+						.findMappingListByAssetId(assetInfoExist.get().getId());
 
 				if (assetAttributeMappingListExist.isPresent()) {
 
@@ -705,7 +705,7 @@ public class MasterAssetServiceImpl implements MasterAssetService {
 					}
 				}
 
-				assetInfoRepo.deleteById(assetId);
+				assetInfoRepo.deleteById(assetInfoExist.get().getId());
 				return buildResponse("Success", "AssetInfo deleted successfully", null);
 			} else {
 				return buildResponse("NotFound", "AssetInfo not found", null);

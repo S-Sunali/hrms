@@ -140,20 +140,20 @@ public class MasterAssetController {
 		return new ResponseEntity<>(responseDTO, status);
 	}
 
-	@PreAuthorize("@auth.allow('UPDATE_ASSET_ATTRIBUTE_MAPPING_BY_ASSET_ID')")
-	@PutMapping(value = "/updateAssetAttributeMappingByAssetId")
-	public ResponseEntity<Object> updateAssetAttributeMappingByAssetId(@RequestBody AssetDTO assetDTO) {
-		LOGGER.info("MasterAssetController:masterAsset:updateAssetAttributeMappingByAssetId info level log message");
-		ResponseDTO responseDTO = service.updateAssetAttributeMappingByAssetId(assetDTO);
+	@PreAuthorize("@auth.allow('UPDATE_ASSET_ATTRIBUTE_MAPPING_BY_ASSET_ADT_ID')")
+	@PutMapping(value = "/updateAssetAttributeMappingByAssetAdtId")
+	public ResponseEntity<Object> updateAssetAttributeMappingByAssetAdtId(@RequestBody AssetDTO assetDTO) {
+		LOGGER.info("MasterAssetController:masterAsset:updateAssetAttributeMappingByAssetAdtId info level log message");
+		ResponseDTO responseDTO = service.updateAssetAttributeMappingByAssetAdtId(assetDTO);
 		HttpStatus status = HttpStatusMapper.mapToHttpStatus(responseDTO.getStatus());
 		return new ResponseEntity<>(responseDTO, status);
 	}
 
-	@PreAuthorize("@auth.allow('DELETE_ASSET_INFO_BY_ID')")
-	@DeleteMapping(value = "/deleteAssetInfoById/{assetId}")
-	public ResponseEntity<Object> deleteAssetInfoById(@PathVariable Integer assetId) {
-		LOGGER.info("MasterAssetController:masterAsset:deleteAssetInfoById info level log message");
-		ResponseDTO responseDTO = service.deleteAssetInfoById(assetId);
+	@PreAuthorize("@auth.allow('DELETE_ASSET_INFO_BY_ASSET_ADT_ID')")
+	@DeleteMapping(value = "/deleteAssetInfoByAssetAdtId")
+	public ResponseEntity<Object> deleteAssetInfoByAssetAdtId(@RequestParam(value = "assetAdtId") String assetAdtId) {
+		LOGGER.info("MasterAssetController:masterAsset:deleteAssetInfoByAssetAdtId info level log message");
+		ResponseDTO responseDTO = service.deleteAssetInfoByAssetAdtId(assetAdtId);
 		HttpStatus status = HttpStatusMapper.mapToHttpStatus(responseDTO.getStatus());
 		return new ResponseEntity<>(responseDTO, status);
 	}

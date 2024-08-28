@@ -30,9 +30,9 @@ public interface MasterAssetService {
 
 	public ResponseDTO getAllAssetInfoByAssetTypeIdAndPagination(Integer assetTypeId, int page, int size);
 
-	public ResponseDTO updateAssetAttributeMappingByAssetId(AssetDTO assetDTO);
+	public ResponseDTO updateAssetAttributeMappingByAssetAdtId(AssetDTO assetDTO);
 
-	public ResponseDTO deleteAssetInfoById(Integer assetId);
+	public ResponseDTO deleteAssetInfoByAssetAdtId(String assetAdtId);
 
 	public ResponseDTO getAssetInfoByAssetAdtId(String assetAdtId);
 

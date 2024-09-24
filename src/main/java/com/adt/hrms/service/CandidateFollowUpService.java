@@ -1,7 +1,10 @@
 package com.adt.hrms.service;
 
 import com.adt.hrms.model.CandidateFollowUp;
+import com.adt.hrms.model.Employee;
 import com.adt.hrms.repository.CandidateFollowUpRepository;
+import com.adt.hrms.request.CandidateFollowUpDataRequest;
+import com.adt.hrms.request.EmployeeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class CandidateFollowUpService {
@@ -79,6 +83,111 @@ public class CandidateFollowUpService {
     }
 
     public List<CandidateFollowUp> getCandidates() {
-        return candidateFollowUpRepository.findAll();
+       return candidateFollowUpRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+    }
+
+    public CandidateFollowUp getCandidateById(int candidateId){
+        Optional<CandidateFollowUp> opt = candidateFollowUpRepository.findById(candidateId);
+        if (opt.isPresent())
+            return opt.get();
+        else
+            return null;
+
+    }
+
+    public String updateCandidateFollowUpData(CandidateFollowUpDataRequest followUpDataRequest) {
+        Optional<CandidateFollowUp> opt = candidateFollowUpRepository.findById(followUpDataRequest.getId());
+        if (!opt.isPresent())
+            return "Candidate not found with id: " + followUpDataRequest.getId();
+        if (followUpDataRequest.getCandidateName() != null)
+            opt.get().setCandidateName(followUpDataRequest.getCandidateName());
+        if (followUpDataRequest.getCandDesignation() != null)
+            opt.get().setCandDesignation(followUpDataRequest.getCandDesignation());
+        if (followUpDataRequest.getPhoneNumber() != null)
+            opt.get().setPhoneNumber(followUpDataRequest.getPhoneNumber());
+        if (followUpDataRequest.getCurrentSalary() != null)
+            opt.get().setCurrentSalary(followUpDataRequest.getCurrentSalary());
+        if (followUpDataRequest.getExperienceYears() != null)
+            opt.get().setExperienceYears(followUpDataRequest.getExperienceYears());
+        if (followUpDataRequest.getExpectedSalary() != null)
+            opt.get().setExpectedSalary(followUpDataRequest.getExpectedSalary());
+        if (followUpDataRequest.getOfferInHand() != null)
+            opt.get().setOfferInHand(followUpDataRequest.getOfferInHand());
+        if (followUpDataRequest.getStatus() != null)
+            opt.get().setStatus(followUpDataRequest.getStatus());
+        if (followUpDataRequest.getNoticePeriod() != null)
+            opt.get().setNoticePeriod(followUpDataRequest.getNoticePeriod());
+        if (followUpDataRequest.getTechnicalSkills() != null)
+            opt.get().setTechnicalSkills(followUpDataRequest.getTechnicalSkills());
+        if (followUpDataRequest.getEmailAddress() != null)
+            opt.get().setEmailAddress(followUpDataRequest.getEmailAddress());
+        if (followUpDataRequest.getCurrentLocation() != null)
+            opt.get().setCurrentLocation(followUpDataRequest.getCurrentLocation());
+        if (followUpDataRequest.getWorkPreference() != null)
+            opt.get().setWorkPreference(followUpDataRequest.getWorkPreference());
+        if (followUpDataRequest.getReasonForChange() != null)
+            opt.get().setReasonForChange(followUpDataRequest.getReasonForChange());
+        if (followUpDataRequest.getNativeLocation() != null)
+            opt.get().setNativeLocation(followUpDataRequest.getNativeLocation());
+        if (followUpDataRequest.getEducation() != null)
+            opt.get().setEducation(followUpDataRequest.getEducation());
+        if (followUpDataRequest.getNativeLocation() != null)
+            opt.get().setNativeLocation(followUpDataRequest.getNativeLocation());
+        if (followUpDataRequest.getPassingYear() != null)
+            opt.get().setPassingYear(followUpDataRequest.getPassingYear());
+        if (followUpDataRequest.getProfileSubmissionDate() != null)
+            opt.get().setProfileSubmissionDate(followUpDataRequest.getProfileSubmissionDate());
+        if (followUpDataRequest.getProfileStatus() != null)
+            opt.get().setProfileStatus(followUpDataRequest.getProfileStatus());
+        if (followUpDataRequest.getPreInterviewFollowUpDate() != null)
+            opt.get().setPreInterviewFollowUpDate(followUpDataRequest.getPreInterviewFollowUpDate());
+        if (followUpDataRequest.getPreInterviewFollowUpType() != null)
+            opt.get().setPreInterviewFollowUpType(followUpDataRequest.getPreInterviewFollowUpType());
+        if (followUpDataRequest.getPreInterviewFollowUpStatus() != null)
+            opt.get().setPreInterviewFollowUpStatus(followUpDataRequest.getPreInterviewFollowUpStatus());
+        if (followUpDataRequest.getInterviewRequestDate() != null)
+            opt.get().setInterviewRequestDate(followUpDataRequest.getInterviewRequestDate());
+        if (followUpDataRequest.getInterviewSchedulingDate() != null)
+            opt.get().setInterviewSchedulingDate(followUpDataRequest.getInterviewSchedulingDate());
+        if (followUpDataRequest.getInterviewStatus() != null)
+            opt.get().setInterviewStatus(followUpDataRequest.getInterviewStatus());
+        if (followUpDataRequest.getInterviewConfirmation() != null)
+            opt.get().setInterviewConfirmation(followUpDataRequest.getInterviewConfirmation());
+        if (followUpDataRequest.getInterviewRescheduleRequests() != null)
+            opt.get().setInterviewRescheduleRequests(followUpDataRequest.getInterviewRescheduleRequests());
+        if (followUpDataRequest.getInterviewNoShows() != null)
+            opt.get().setInterviewNoShows(followUpDataRequest.getInterviewNoShows());
+        if (followUpDataRequest.getOfferFollowUpDate() != null)
+            opt.get().setOfferFollowUpDate(followUpDataRequest.getOfferFollowUpDate());
+        if (followUpDataRequest.getOfferFollowUpStatus() != null)
+            opt.get().setOfferFollowUpStatus(followUpDataRequest.getOfferFollowUpStatus());
+        if (followUpDataRequest.getOfferFollowUpComments() != null)
+            opt.get().setOfferFollowUpComments(followUpDataRequest.getOfferFollowUpComments());
+        if (followUpDataRequest.getOfferFollowUpActionTaken() != null)
+            opt.get().setOfferFollowUpActionTaken(followUpDataRequest.getOfferFollowUpActionTaken());
+        if (followUpDataRequest.getOnboardingDocumentSubmissionFollowUpDate() != null)
+            opt.get().setOnboardingDocumentSubmissionFollowUpDate(followUpDataRequest.getOnboardingDocumentSubmissionFollowUpDate());
+        if (followUpDataRequest.getOnboardingDocumentSubmissionFollowUpStatus() != null)
+            opt.get().setOnboardingDocumentSubmissionFollowUpStatus(followUpDataRequest.getOnboardingDocumentSubmissionFollowUpStatus());
+        if (followUpDataRequest.getOnboardingDocumentSubmissionFollowUpComments() != null)
+            opt.get().setOnboardingDocumentSubmissionFollowUpComments(followUpDataRequest.getOnboardingDocumentSubmissionFollowUpComments());
+        if (followUpDataRequest.getOnboardingDocumentSubmissionFollowUpActionTaken() != null)
+            opt.get().setOnboardingDocumentSubmissionFollowUpActionTaken(followUpDataRequest.getOnboardingDocumentSubmissionFollowUpActionTaken());
+        if (followUpDataRequest.getOnboardingProcessFollowUpDate() != null)
+            opt.get().setOnboardingProcessFollowUpDate(followUpDataRequest.getOnboardingProcessFollowUpDate());
+        if (followUpDataRequest.getOnboardingProcessFollowUpStatus() != null)
+            opt.get().setOnboardingProcessFollowUpStatus(followUpDataRequest.getOnboardingProcessFollowUpStatus());
+        if (followUpDataRequest.getOnboardingProcessFollowUpComments() != null)
+            opt.get().setOnboardingProcessFollowUpComments(followUpDataRequest.getOnboardingProcessFollowUpComments());
+        if (followUpDataRequest.getOnboardingProcessFollowUpActionTaken() != null)
+            opt.get().setOnboardingProcessFollowUpActionTaken(followUpDataRequest.getOnboardingProcessFollowUpActionTaken());
+        if (followUpDataRequest.getUpdatedDate() != null)
+            opt.get().setUpdatedDate(followUpDataRequest.getUpdatedDate());
+        if (followUpDataRequest.getUpdatedBy() != null)
+            opt.get().setUpdatedBy(followUpDataRequest.getUpdatedBy());
+        if (followUpDataRequest.getRemarks() != null)
+            opt.get().setRemarks(followUpDataRequest.getRemarks());
+
+        return candidateFollowUpRepository.save(opt.get()).getId() + " Employee Updated Successfully";
     }
 }
